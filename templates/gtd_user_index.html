@@ -1,0 +1,81 @@
+<{include file='db:gtd_user_header.html'}>
+
+<{if $gtd_noStaff}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+    <{$smarty.const._GTD_MESSAGE_NO_STAFF}>
+    </div>
+<{/if}>
+
+<br />
+<div id="userTickets">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    
+    <th colspan="8">
+        <img src="<{$gtd_imagePath}>openTicket.png" alt="<{$smarty.const._GTD_TEXT_MY_OPEN_TICKETS}>" /><{$smarty.const._GTD_TEXT_MY_OPEN_TICKETS}>
+    </th>
+    
+</tr>
+<{if $gtd_has_userTickets neq 0}>
+ <tr>
+            <td class="head">
+                <{$smarty.const._GTD_TEXT_ID}>
+            </td>
+	        <td class="head">
+                NOM & Prenom
+            </td>
+            <td class="head">
+                <{$smarty.const._GTD_TEXT_STATUS}>
+            </td>
+		<td class="head">
+		<{$smarty.const._GTD_TEXT_DEPARTMENT}>
+	</td>
+        </tr>
+    <{foreach from=$gtd_userTickets item=ticket}>
+    <tr class="<{cycle values="odd, even"}> pri<{$ticket.genre}><{if $ticket.overdue}> overdue<{/if}>">
+            <td nowrap="nowrap">
+                <input type="checkbox" name="tickets[]" value="<{$ticket.id}>" /> <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.id}></a>
+            </td>
+	<td class="user">
+	<a href="ticket.php?id=<{$ticket.id}>"><{$ticket.nom_danseur}> <{$ticket.prenom_danseur}> - <{$ticket.prenom_danseuse}> <{$ticket.nom_danseuse}></a>
+	</td>
+            <td class="status">
+                <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.status}></a>
+            </td>	    
+            <td class="department">
+                <a href="<{$ticket.departmenturl}>"><{$ticket.department}></a>
+            </td>
+        </tr>
+    <{/foreach}>
+<{else}>
+    <tr class="odd">
+        <td colspan="4">
+            <{$smarty.const._GTD_NO_TICKETS_ERROR}>
+        </td>
+    </tr>
+<{/if}>
+</table>
+</div>
+
+<br />
+<{if $gtd_useAnnouncements eq true}>
+    <div id="announcements">
+    <table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+    <tr>
+        <th>
+            <{$smarty.const._GTD_TEXT_ANNOUNCEMENTS}>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <{* start news item loop *}>
+            <{section name=i loop=$gtd_announcements}>
+              <{include file="db:gtd_announcement.html" story=$gtd_announcements[i]}>
+              <br />
+            <{/section}>
+            <{* end news item loop *}>
+        </td>
+    </tr>
+    </table>
+    </div>
+<{/if}>

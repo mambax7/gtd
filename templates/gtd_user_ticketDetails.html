@@ -1,0 +1,283 @@
+<{include file='db:gtd_user_header.html'}>
+
+<div id="Details">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="3">
+	<img src="<{$gtd_imagePath}>ticketInfo.png" alt="<{$gtd_ticket_details}>" /> <{$gtd_ticket_details}>
+	<a style="clear:both; float:right" href="<{$gtd_baseURL}>/ticket.php?id=<{$gtd_ticketID}>&amp;op=print" target="_blank"><img src="<{$gtd_imagePath}>print.png" alt="Imprimer" />Version Imprimable</a>
+    </th>
+</tr>
+<tr >
+    <td width="20%" class="head">
+        <a href="<{$gtd_userinfo}>"><{$gtd_username}></a>
+    </td>
+    <td class="head" colspan="2">
+        <{$smarty.const._GTD_TEXT_LOG_TIME}> <{$gtd_ticket_posted}>
+    </td>
+</tr>
+<tr class="no-class">
+    <td>
+        <img src="<{$gtd_user_avatar}>" class="comUserImg" alt="<{$smarty.const._GTD_PIC_ALT_USER_AVATAR}>" />
+        <div class="comUserStat">
+        <b><{$smarty.const._GTD_TEXT_GENRE}> : </b> <img src="images/genre<{$gtd_ticket_genre}>full.png" alt="<{$gtd_genres_desc.$gtd_ticket_genre}>" />
+	</div>
+        <div class="comUserStat">
+        <b><{$smarty.const._GTD_TEXT_DEPARTMENT}> : </b><br>
+        <a href="<{$gtd_departmenturl}>"><{$gtd_ticket_department}></a>
+        </div>
+    </td>
+	<!-- DEBUT DETAIL -->
+    <td>
+    
+    	<div style="margin-bottom:50px">
+	<div class="comUserStat" style="float:left;height:90px;width:200px; margin-right:40px ">
+		<div class="comUserStat"; style="margin-bottom:5px; float:left;height:20px;width:70px "> DANSEUR
+		</div>
+		<div style="clear:both; float:left; margin-right:20px; margin-top:5px"><a class="comBleue"><{$smarty.const._GTD_TEXT_NOM}> : </a> <{$gtd_ticket_nom_danseur}>
+		</div>
+		<div style="margin-top:10px; clear:both; float:left; margin-right:5px; margin-top:10px"><a class="comBleue"><{$smarty.const._GTD_TEXT_PRENOM}> : </a> <{$gtd_ticket_prenom_danseur}>
+		</div>
+	</div>
+	
+	<div class="comUserStat" style="float:left;height:90px;width:200px ">
+		<div class="comUserStat" style="margin-bottom:5px; float:left;height:20px;width:70px "> DANSEUSE
+		</div>
+		<div style=" clear:both; float:left; margin-right:20px; margin-top:5px"><a class="comBleue"><{$smarty.const._GTD_TEXT_NOM}> : </a> <{$gtd_ticket_nom_danseuse}>
+		</div>
+		<div style="margin-top:10px; clear:both; float:left; margin-right:5px; margin-top:10px"><a class="comBleue"><{$smarty.const._GTD_TEXT_PRENOM}> : </a> <{$gtd_ticket_prenom_danseuse}>
+		</div>
+	</div>
+	</div>
+	
+	<hr style="clear:both"/>
+	
+	<div class="comBleue" style="margin-top:10px">COURS ET REDUCTIONS</div>
+	<{if $gtd_hasCustFields}>
+	<div class="comUserStat" style="margin-bottom:10px; width:300px">
+	<table class="outer">
+		<tr>
+			<td class="head" ALIGN="center">
+			TYPE
+			</td>
+			<td class="head" ALIGN="center">
+			DETAIL
+			</td>
+		</tr>
+		<{foreach from=$gtd_custFields item=field}>
+		<{if $aFile.responseid eq 0}>
+		<tr class="even">
+			<td>
+				<{if $smarty.const.GTD_CONTROL_FILE == $field.controltype}>
+				<b><{$field.name}></b>: <a href="<{$gtd_baseURL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+				<{if $gtd_has_deleteFile}>
+				<a href="<{$gtd_baseURL}>/ticket.php?op=deleteFile&amp;id=<{$gtd_ticketID}>&amp;fileid=<{$field.fileid}>&amp;field=<{$field.fieldname}>"><img src="<{$gtd_imagePath}>button_delete.png" alt="<{$smarty.const._GTD_BUTTON_DELETE}>"></a>
+				<{/if}>
+				<{else}>
+				<b><{$field.name}> : 
+				<{/if}>
+			</td>
+			<td>
+				<{if $smarty.const.GTD_CONTROL_FILE == $field.controltype}>
+				<b><{$field.name}></b>: <a href="<{$gtd_baseURL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+				<{if $gtd_has_deleteFile}>
+				<a href="<{$gtd_baseURL}>/ticket.php?op=deleteFile&amp;id=<{$gtd_ticketID}>&amp;fileid=<{$field.fileid}>&amp;field=<{$field.fieldname}>"><img src="<{$gtd_imagePath}>button_delete.png" alt="<{$smarty.const._GTD_BUTTON_DELETE}>"></a>
+				<{/if}>
+				<{else}>
+				<{$field.value}>
+				<{/if}>
+			</td>
+			<{/if}>
+		</tr>
+		<{/foreach}>
+	</table>
+	</div>
+	<{else}>
+	<div class="comUserStat" style="margin-bottom:10px; width:300px">
+	Detail indisponible <a style="color: #FE9901" href="<{$xoops_baseURL}>/modules/liaise/index.php?form_id=1"> <i> ( Prevenir l'administrateur ) </i> </a>
+	</div>
+	
+<{/if}>
+
+
+	
+	<div class="comBleue" style="margin-top:10px">DETAIL DU REGLEMENT</div>
+	<div class="comUserStat" style="100px;width:300px">
+	Cotisation nette : <{$gtd_ticket_pvp}> Euros<br>
+	Paiement par : <{$gtd_mode_paiements_desc.$gtd_ticket_mode_paiement}><br>
+	Modalite : <{$gtd_echeances_desc.$gtd_ticket_echeance}><br>
+	</div>	
+	
+	<div class="comBleue" style="float:left; margin-top:10px">
+		<div>OBSERVATIONS : </div>
+		<div class="comUserStat" style="margin-right:5px; height:100px;width:450px">
+		<{$gtd_ticket_description}>
+		</div>
+	</div>
+        <{if $gtd_hasTicketFiles}>
+            <br /><br />
+            <div id="gtdFiles">
+            <table border="0" class="outer">
+            <tr>
+                <td class="head">
+                    <{$smarty.const._GTD_TEXT_FILE}>
+                </td>
+                <td class="head">
+                    <{$smarty.const._GTD_TEXT_SIZE}>
+                </td>
+                <td class="head">
+                    <{$smarty.const._GTD_TEXT_ACTIONS}>
+                </td>
+            </tr>
+            <{foreach from=$gtd_aFiles item=aFile}>
+                <{if $aFile.responseid eq 0}>
+                <tr class="even">
+                    <td>
+                        <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                    </td>
+                    <td>
+                        <{$aFile.size}>
+                    </td>
+                    <td>
+                        <{if $gtd_has_deleteFile}>
+                            <a href="<{$gtd_baseURL}>/ticket.php?op=deleteFile&amp;id=<{$gtd_ticketID}>&amp;fileid=<{$aFile.id}>"><img src="<{$gtd_imagePath}>button_delete.png" alt="<{$smarty.const._GTD_BUTTON_DELETE}>"></a>
+                        <{/if}>
+                    </td>
+                </tr>
+                <{/if}>
+            <{/foreach}>
+            </table>
+            </div>
+        <{/if}>
+    </td>
+</tr>
+</table>
+</div>
+<!-- FIN TABLEAU DETAIL -->
+<div id="responses">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <img src="<{$gtd_imagePath}>response.png" alt="<{$smarty.const._GTD_TEXT_RESPONSES}>" /><{$smarty.const._GTD_TEXT_RESPONSES}>
+    </th>
+</tr>
+<{if $gtd_hasResponses eq true}>
+<{foreach from=$gtd_aResponses item=response}>
+<{if $response.private eq false}>
+<tr>
+    <td class="head" width="20%">
+        <{$response.uname}><br />
+        <{$response.updateTime}><br />
+        <br />
+        <{if $response.rating eq '' && $response.uid neq $gtd_uid}>
+            <a href="staffReview.php?staff=<{$response.uid}>&amp;ticketid=<{$gtd_ticketID}>&amp;responseid=<{$response.id}>"><{$smarty.const._GTD_TEXT_RATE_RESPONSE}></a>
+        <{elseif $response.rating neq '' && $response.uid neq $gtd_uid}>
+            <{$smarty.const._GTD_TEXT_RESPONSE_RATING}> <{$response.rating}>
+        <{/if}>
+    </td>
+    <td class="<{cycle name="message" values="odd, even"}>">
+        <{$response.message}>
+        <{if $response.attachSig eq 1 && $response.user_sig neq ''}>
+            <{$smarty.const._GTD_SIG_SPACER}>
+            <{$response.user_sig}>
+        <{/if}>
+        <br /><br />
+        <{if $response.hasFiles eq true}>
+            <table border="0" class="outer">
+            <tr class="head">
+                <td>
+                    <{$smarty.const._GTD_TEXT_FILE}>
+                </td>
+                <td>
+                    <{$smarty.const._GTD_TEXT_SIZE}>
+                </td>
+            </tr>
+            <{foreach from=$gtd_aFiles item=aFile}>
+                <{if $aFile.responseid eq $response.id && $aFile.responseid neq 0}>
+                    <tr class="even">
+                        <td>
+                            <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                        </td>
+                        <td>
+                            <{$aFile.size}>
+                        </td>
+                    </tr>
+               <{/if}>
+           <{/foreach}>
+           </table>
+        <{/if}>
+    </td>
+</tr>
+<{/if}>
+<{/foreach}>
+<{else}>
+<tr class="even">
+    <td colspan="2">
+        <{$smarty.const._GTD_NO_RESPONSES_ERROR}>
+    </td>
+</tr>
+<{/if}>
+</table>
+</div>
+
+<br />
+<{if $gtd_allowResponse eq 1}>
+<div id="userResponse">
+<form method="post" enctype="multipart/form-data" action="ticket.php?id=<{$gtd_ticketID}>&amp;op=userResponse">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <{if $gtd_reopenTicket eq true}>
+            <{$smarty.const._GTD_TEXT_REOPEN_TICKET}>
+        <{else}>
+            <{$smarty.const._GTD_TEXT_MORE_INFO}>
+        <{/if}>
+    </th>
+</tr>
+<tr>
+    <td width="20%" class="head">
+        <{if $gtd_reopenTicket eq true}>
+            <{$smarty.const._GTD_TEXT_REOPEN_REASON}>
+        <{else}>
+            <{$smarty.const._GTD_TEXT_MORE_INFO2}>
+        <{/if}>
+    </td>
+    <td class="even">
+        <textarea name="userResponse" rows="10" cols="50" class="formButton"></textarea>
+    </td>
+</tr>
+<{if $gtd_allowUpload eq 1}>
+<tr>
+    <td width="20%" class="head">
+        <{$smarty.const._GTD_TEXT_ADDFILE}>
+    </td>
+    <td class="even">
+        <input name="userfile" id="userfile" type="file" class="formButton" />
+    </td>
+</tr>
+<{/if}>
+<{if $gtd_reopenTicket eq false}>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_CLOSE_TICKET}>
+    </td>
+    <td class="even">
+        <input type="checkbox" name="closeTicket" value="0" />
+    </td>
+</tr>
+<{/if}>
+        
+<tr class="foot">
+    <td colspan="2">
+        <{if $gtd_reopenTicket eq true}>
+            <input type="submit" name="newResponse" value="<{$smarty.const._GTD_BUTTON_ADDRESPONSE}>" class="formButton" />
+        <{else}>
+            <input type="submit" name="newResponse" value="<{$smarty.const._GTD_BUTTON_SUBMIT}>" class="formButton" />
+        <{/if}>
+        <input type="reset" value="<{$smarty.const._GTD_BUTTON_RESET}>" class="formButton" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
+<{/if}>

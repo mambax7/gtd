@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC '//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$xoops_langcode}>" lang="<{$xoops_langcode}>">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$xoops_charset}>" />
+<meta http-equiv="content-language" content="<{$xoops_langcode}>" />
+<title><{$sitename}> <{$smarty.const._GTD_TEXT_USER_LOOKUP}></title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/xoops.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_themecss}>" />
+</head>
+
+<body>
+
+<{if $gtd_errors neq null}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+        <img src="<{$gtd_imagePath}>important.png" />
+        <{$smarty.const._GTD_MESSAGE_VALIDATE_ERROR}><br />
+        <{foreach from=$gtd_errors item=error key=key}>
+            <li><a href="#<{$key}>" onclick="document.editResponse.<{$key}>.focus();"><{$key}><{$error}></a></li>
+        <{/foreach}>
+    </div>
+    <br />
+<{/if}>
+
+<form method="post" enctype="multipart/form-data" action="<{$gtd_baseURL}>/internas.php?id=<{$gtd_ticketID}>&amp;op=edit">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton" id="tblEditTicket">
+<tr>
+    <th colspan="2">
+        <img src="<{$gtd_imagePath}>addTicket.png" alt="<{$smarty.const._GTD_TITLE_EDITTICKET}>" /> <{$smarty.const._GTD_TITLE_EDITINTERNAS}>
+    </th>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._GTD_TEXT_OBSERVATIONS_PAIEMENT}>
+    </td>
+    <td class="even">
+        <textarea name="observations_paiement" id="observations_paiement" rows="5" cols="50" class="<{$gtd_element_observations_paiement}>"><{$gtd_ticket_observations_paiement}></textarea>
+    </td>
+</tr>
+<tr id="editButtons">
+    <td class="head">
+    </td>
+    <td class="even">
+        <input type="submit" name="editTicket" id="editTicket" value="<{$smarty.const._GTD_BUTTON_EDITINTERNAS}>" class="formButton" />
+        <input type="reset" value="<{$smarty.const._GTD_BUTTON_RESET}>" class="formButton" />
+    </td>
+</tr>
+</table>
+</form>
+</body>
+</html>

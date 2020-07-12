@@ -1,0 +1,25 @@
+<div id="gtd_setgenre">
+<form method="post" name="frmSetPriority">
+<table style="width:85%;" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2"><{$smarty.const._GTD_TEXT_SETGENRE}></th>
+</tr>
+<tr>
+    <td class="head" width="20%"><{$smarty.const._GTD_TEXT_GENRE}></td>
+    <td class="odd">
+        <{foreach from=$gtd_genres item=genre}>
+            <input type="radio" value="<{$genre}>" id="genre<{$genre}>" name="genre" <{if $gtd_genre eq $genre}>checked="checked"<{/if}> />
+            <label for="genre<{$genre}>"><img src="<{$gtd_imagePath}>genre<{$genre}>.png" alt="<{$gtd_genres_desc.$genre}>" /></label>
+        <{/foreach}>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" class="even" align="right">
+        <input type="submit" name="setgenre" value="<{$smarty.const._GTD_BUTTON_SET}>" />
+        <input type="hidden" name="tickets" value="<{$gtd_tickets}>" />
+        <input type="hidden" name="op" value="setgenre" />
+    </td>
+</tr>
+</table>
+</form>
+</div>

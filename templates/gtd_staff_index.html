@@ -1,0 +1,194 @@
+<{include file='db:gtd_staff_header.html'}>
+
+<form name="tickets" method="post" action="<{$gtd_baseURL}>/index.php">
+<{if $gtd_viewAllTickets}>    <{* view all tickets? *}>
+    <table id="allTickets" width="100%" border="1" cellpadding="0" cellspacing="2" class="listtitle">
+    <tr>
+        <th colspan="10">
+            <img src="<{$gtd_imagePath}>ticket.png" alt="<{$smarty.const._GTD_TEXT_ALL_TICKETS}>" /><{$smarty.const._GTD_TEXT_ALL_TICKETS}>
+        </th>
+    </tr>
+    <{if $gtd_has_tickets eq true}>
+        <tr>
+            <td class="head">
+                <{$smarty.const._GTD_TEXT_ID}>
+            </td>
+	        <td class="head">
+                <{$smarty.const._GTD_TEXT_NOM_ET_PRENOM}>
+            </td>
+            <td class="head">
+                <{$smarty.const._GTD_TEXT_STATUS}>
+            </td>
+            <td class="head">
+                <{$smarty.const._GTD_TEXT_DEPARTMENT}>
+            </td>
+	<td class="head">
+                <{$smarty.const._GTD_TEXT_LOG_TIME}>
+            </td>
+        </tr>
+        <{foreach from=$gtd_allTickets item=ticket}>
+            <tr class="<{cycle values="odd, even"}> pri<{$ticket.genre}><{if $ticket.overdue}> overdue<{/if}>">
+            <td nowrap="nowrap">
+                <input type="checkbox" name="tickets[]" value="<{$ticket.id}>" /> <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.id}></a>
+            </td>>
+	<td class="user">
+	<{$ticket.nom_danseur}> <{$ticket.prenom_danseur}> <a href="<{$ticket.userinfo}>">(<{$ticket.uname}>)</a>
+	</td>
+            <td class="status">
+                <{$ticket.status}>
+            </td>
+            <td class="department">
+                <a href="<{$ticket.departmenturl}>"><{$ticket.department}></a>
+            </td>
+           	<td class="posted" nowrap="nowrap">
+                <{$ticket.posted}>
+            </td>
+        </tr>
+        <{/foreach}>
+    <{else}>
+        <tr class="odd">
+            <td colspan="6">
+                <{$smarty.const._GTD_NO_TICKETS_ERROR}>
+            </td>
+        </tr>
+    <{/if}>
+    </table>
+    <div id="gtd_nav"><{$gtd_pagenav}></div>
+<{else}>
+    <{if $gtd_hasTicketLists}>
+        <{foreach from=$gtd_ticketLists item=ticketList}>
+            <table id="<{$ticketList.tableid}>" width="100%" border="1" cellpadding="0" cellspacing="2" class="listtitle">
+            <tr>
+                <th colspan="10" class="listtitle">
+                    <a href="<{$gtd_baseURL}>/search.php?savedSearch=<{$ticketList.searchid}>" style="float:right"><{$smarty.const._GTD_TEXT_VIEW_MORE_TICKETS}></a>
+                    <{$ticketList.searchname}>
+                </th>
+            </tr>
+            <{if $ticketList.hasTickets}>
+                <tr>
+                    <td class="head">
+                        <{$smarty.const._GTD_TEXT_ID}>
+                    </td>
+	   	       <td class="head">
+		<{$smarty.const._GTD_TEXT_NOM_ET_PRENOM}>
+     		       </td>
+                    <td class="head">
+                        <{$smarty.const._GTD_TEXT_STATUS}>
+                    </td>
+                    <td class="head">
+                        <{$smarty.const._GTD_TEXT_DEPARTMENT}>
+                    </td>
+		<td class="head">
+                        Cotisation
+                    </td>
+		<td class="head">
+                        <{$smarty.const._GTD_TEXT_LOG_TIME}>
+                    </td>
+                </tr>
+                <{foreach from=$ticketList.tickets item=ticket}>
+                    <tr class="<{cycle values="odd, even"}> pri<{$ticket.genre}><{if $ticket.overdue}> overdue<{/if}>">
+                        <td nowrap="nowrap">
+                            <input type="checkbox" name="tickets[]" value="<{$ticket.id}>" /> <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.id}></a>
+                        </td>
+		    <td class="user">
+		<{$ticket.prenom_danseur}> <{$ticket.prenom_danseuse}> <{$ticket.nom_danseur}><a href="<{$ticket.userinfo}>">(<{$ticket.uname}>)</a>
+                        </td>
+                        <td class="status">
+                            <{$ticket.status}>
+                        </td>
+                        <td class="department">
+                            <a href="<{$ticket.departmenturl}>"><{$ticket.department}></a>
+                        </td>
+		<td class="pvp">
+			<a href="ticket.php?id=<{$ticket.id}>"><{$ticket.pvp}> Euros</a>
+		</td>
+			<td class="posted" nowrap="nowrap">
+                            <{$ticket.posted}>
+                        </td>
+                    </tr>
+                <{/foreach}>
+            <{else}>
+                <tr class="odd">
+                    <td colspan="6">
+                        <{$smarty.const._GTD_NO_TICKETS_ERROR}>
+                    </td>
+                </tr>
+            <{/if}>
+            </table>
+            <br />
+        <{/foreach}>
+    <{/if}>
+<{/if}>
+
+<div id="gtdBatchActions">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="listtitle">
+<tr>
+    <th colspan="2" class="listtitle"><{$smarty.const._GTD_TEXT_BATCH_ACTIONS}></th>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._GTD_TEXT_SELECTED}>
+    </td>
+    <td class="even">
+        <select name="op">
+        <option value="setdept"><{$smarty.const._GTD_TEXT_BATCH_DEPARTMENT}></option>
+        <option value="setgenre"><{$smarty.const._GTD_TEXT_BATCH_GENRE}></option>
+        <option value="setstatus"><{$smarty.const._GTD_TEXT_BATCH_STATUS}></option>
+        <option value="delete"><{$smarty.const._GTD_TEXT_BATCH_DELETE}></option>
+        <option value="addresponse"><{$smarty.const._GTD_TEXT_BATCH_RESPONSE}></option>
+        <option value="setowner"><{$smarty.const._GTD_TEXT_BATCH_OWNERSHIP}></option>
+        </select>
+        <input type="submit" value="<{$smarty.const._GO}>" />
+    </td>
+</tr>
+</table>
+</div>
+</form>
+
+<br />
+<{if $gtd_viewAllTickets eq false}>
+<div id="staffSideBar">
+<table class="formButton">
+
+    <tr>
+        <td>
+            <form name="formRefresh" method="get" action="<{$gtd_current_file}>">
+            <select name="refresh" onchange="window.location='<{$gtd_baseURL}>/index.php?refresh='+this.options[this.selectedIndex].value;">
+            <option value="<{$smarty.const._GTD_AUTO_REFRESH0}>"><{$smarty.const._GTD_TEXT_AUTO_REFRESH0}></option>
+            <option value="<{$smarty.const._GTD_AUTO_REFRESH1}>" <{if $gtd_refresh eq $smarty.const._GTD_AUTO_REFRESH1}>selected="selected"<{/if}>><{$smarty.const._GTD_TEXT_AUTO_REFRESH1}></option>
+            <option value="<{$smarty.const._GTD_AUTO_REFRESH2}>" <{if $gtd_refresh eq $smarty.const._GTD_AUTO_REFRESH2}>selected="selected"<{/if}>><{$smarty.const._GTD_TEXT_AUTO_REFRESH2}></option>
+            <option value="<{$smarty.const._GTD_AUTO_REFRESH3}>" <{if $gtd_refresh eq $smarty.const._GTD_AUTO_REFRESH3}>selected="selected"<{/if}>><{$smarty.const._GTD_TEXT_AUTO_REFRESH3}></option>
+            <option value="<{$smarty.const._GTD_AUTO_REFRESH4}>" <{if $gtd_refresh eq $smarty.const._GTD_AUTO_REFRESH4}>selected="selected"<{/if}>><{$smarty.const._GTD_TEXT_AUTO_REFRESH4}></option>
+            </select>
+            <input type="submit" value="<{$smarty.const._GTD_BUTTON_SUBMIT}>" />
+            </form>
+        </td>
+    </tr>
+</table>
+</div>
+<{/if}>
+
+<{if $gtd_viewAllTickets eq false}>
+    <{if $gtd_useAnnouncements eq true}>
+    <br />
+    <div id="announcements">
+    <table width="100%" border="1" cellpadding="0" cellspacing="2" class="listtitle">
+    <tr>
+        <th>
+            <{$smarty.const._GTD_TEXT_ANNOUNCEMENTS}>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <{* start news item loop *}>
+            <{section name=i loop=$gtd_announcements}>
+              <{include file="db:gtd_announcement.html" story=$gtd_announcements[i]}>
+              <br />
+            <{/section}>
+            <{* end news item loop *}>
+        </td>
+    </tr>
+    </table>
+    </div>
+    <{/if}>
+<{/if}>

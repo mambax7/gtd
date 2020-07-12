@@ -1,0 +1,114 @@
+<{if $gtd_errors neq null}>   <{* Errors on ticket submission? *}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+        <img src="<{$gtd_imagePath}>important.png" />
+        <{$smarty.const._GTD_MESSAGE_VALIDATE_ERROR}><br />
+        <{foreach from=$gtd_errors item=error key=key}>
+            <li><a href="#<{$key}>" onclick="document.editResponse.<{$key}>.focus();"><{$key}><{$error}></a></li>
+        <{/foreach}>
+    </div>
+    <br />
+<{/if}>
+<{include file='db:gtd_staff_header.html'}>   <{* Include staff header *}>
+
+<div class="formButton" style="border:1px solid black;">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+    <th colspan="2">
+        <img src="<{$gtd_imagePath}>response.png" alt="<{$smarty.const._GTD_TITLE_EDITRESPONSE}>" /> <{$smarty.const._GTD_TITLE_EDITRESPONSE}>
+    </th>
+</tr>
+<{if $gtd_hasResponseTpl}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._GTD_TEXT_PREDEFINED_RESPONSES}>
+    </td>
+    <td class="even">
+        <form name="formRefresh" method="get" action="<{$gtd_baseURL}>/response.php">
+        <select name="replies" onchange="window.location='<{$gtd_baseURL}>/response.php?op=staffEdit&amp;id=<{$gtd_ticketID}>&amp;responseid=<{$gtd_responseid}>&amp;refresh='+this.options[this.selectedIndex].value;">
+            <option value="0">------------------</option>
+        <{foreach from=$gtd_responseTpl item=response}>
+            <option value="<{$response.id}>" <{if $gtd_refresh eq $response.id}>selected="selected"<{/if}>><{$response.name}></option>
+        <{/foreach}>
+        </select>
+        </form>
+    </td>
+</tr>
+<{/if}>
+</table>
+
+<form style="margin:0; padding:0;" method="post" enctype="multipart/form-data" action="<{$gtd_baseURL}>/response.php?op=staffEditSave&amp;id=<{$gtd_ticketID}>&amp;responseid=<{$gtd_responseid}>" name="editResponse">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._GTD_TEXT_RESPONSE}>
+    </td>
+    <td class="even">
+        <textarea name="response" id="response" rows="10" cols="50" class="<{$gtd_element_response}>"><{if $gtd_refresh neq 0}><{$gtd_response_text}><{else}><{$gtd_responseMessage}><{/if}>
+        </textarea>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_TIMESPENT}>
+    </td>
+    <td class="even">
+        <input type="text" name="timespent" value="<{$gtd_timeSpent}>" class="<{$gtd_element_timespent}>" /><{$smarty.const._GTD_TEXT_MINUTES}>
+    </td>
+</tr>
+<{if $gtd_allowUpload eq 1}>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_ADDFILE}>
+    </td>
+    <td class="even">
+        <input name="userfile" type="file" class="formButton" />
+    </td>
+</tr>
+<{/if}>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_STATUS}>
+    </td>
+    <td class="even">
+        <select name="status">
+            <{foreach from=$gtd_statuses item=status}>
+                <option value="<{$status.id}>" <{if $gtd_status eq $status.id}>selected="selected"<{/if}>><{$status.desc}></option>
+            <{/foreach}>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_PRIVATE_RESPONSE}>
+    </td>
+    <td class="even">
+        <{$gtd_responsePrivate}>   
+    </td>
+</tr>
+<{if $gtd_has_owner neq $gtd_currentUser}>  <{* If current user is not ticket owner, display claim ownership *}>
+<tr>
+    <td class="head">
+        <{$smarty.const._GTD_TEXT_CLAIMOWNER}>
+    </td>
+    <td class="even">
+        <input name="claimOwner" value="<{$gtd_currentUser}>" type="radio" class="formButton" <{if $gtd_has_owner eq 0}>checked="checked"<{/if}> /><{$smarty.const._GTD_TEXT_YES}>
+        <input name="claimOwner" value="0" type="radio" class="formButton" <{if $gtd_has_owner neq 0}>checked="checked"<{/if}> /><{$smarty.const._GTD_TEXT_NO}>
+    </td>
+</tr>
+<{/if}>
+<tr>
+    <td class="head">
+    </td>
+    <td class="even">
+        <input type="submit" name="editResponse" value="<{$smarty.const._GTD_BUTTON_EDITRESPONSE}>" class="formButton" />
+        <input type="reset" value="<{$smarty.const._GTD_BUTTON_RESET}>" class="formButton" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+

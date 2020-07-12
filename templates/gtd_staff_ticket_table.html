@@ -1,0 +1,75 @@
+    <table id="allTickets" width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+    <tr>
+        <th colspan="9">
+            <img src="<{$gtd_imagePath}>openTicket.png" alt="<{$gtd_text_allTickets}>" /><{$gtd_text_allTickets}>
+        </th>
+    </tr>
+    <{if $gtd_has_tickets eq true}>
+    <tr>
+        <td class="head">
+            <a href="<{$gtd_cols.id.url}>" title="<{$gtd_cols.id.urltitle}>"><{$smarty.const._GTD_TEXT_ID}><{if $gtd_cols.id.sortby eq true}><img src="images/<{$gtd_cols.id.sortdir}>.png" alt="<{$gtd_cols.id.sortdir}>" /><{/if}></a>
+        </td>
+        <td class="head">
+            <a href="<{$gtd_cols.genre.url}>" title="<{$gtd_cols.genre.urltitle}>"><{$smarty.const._GTD_TEXT_GENRE2}><{if $gtd_cols.genre.sortby eq true}><img src="images/<{$gtd_cols.genre.sortdir}>.png" alt="<{$gtd_cols.genre.sortdir}>" /><{/if}></a>
+        </td>
+	<td class="head">
+            <a href="<{$gtd_cols.nom_danseur.url}>" title="<{$gtd_cols.nom_danseur.urltitle}>"><{$smarty.const._GTD_TEXT_NOM_DANSEUR}><{if $gtd_cols.sortby eq true}><img src="images/<{$gtd_cols.nom_danseur.sortdir}>.png" alt="<{$gtd_cols.nom_danseur.sortdir}>" /><{/if}></a>
+        </td>
+	<td class="head">
+            <a href="<{$gtd_cols.nom_danseuse.url}>" title="<{$gtd_cols.nom_danseuse.urltitle}>"><{$smarty.const._GTD_TEXT_NOM_DANSEUSE}><{if $gtd_cols.sortby eq true}><img src="images/<{$gtd_cols.nom_danseuse.sortdir}>.png" alt="<{$gtd_cols.nom_danseuse.sortdir}>" /><{/if}></a>
+        </td>
+        <td class="head">
+            <a href="<{$gtd_cols.status.url}>" title="<{$gtd_cols.status.urltitle}>"><{$smarty.const._GTD_TEXT_STATUS}><{if $gtd_cols.status.sortby eq true}><img src="images/<{$gtd_cols.status.sortdir}>.png" alt="<{$gtd_cols.status.sortdir}>" /><{/if}></a>
+        </td>
+	<td class="head">
+            <a href="<{$gtd_cols.pvp.url}>" title="<{$gtd_cols.pvp.urltitle}>"><{$smarty.const._GTD_TEXT_PVP}><{if $gtd_cols.pvp.sortby eq true}><img src="images/<{$gtd_cols.pvp.sortdir}>.png" alt="<{$gtd_cols.pvp.sortdir}>" /><{/if}></a>
+        </td>
+        <td class="head">
+            <a href="<{$gtd_cols.department.url}>" title="<{$gtd_cols.department.urltitle}>"><{$smarty.const._GTD_TEXT_DEPARTMENT}><{if $gtd_cols.department.sortby eq true}><img src="images/<{$gtd_cols.department.sortdir}>.png" alt="<{$gtd_cols.department.sortdir}>" /><{/if}></a>
+        </td>
+	 <td class="head">
+	 Act.
+	</td>
+    </tr>
+    <{foreach from=$gtd_allTickets item=ticket}>
+    <{if $ticket.overdue}>
+        <tr class="<{cycle values="odd, even"}> pri<{$ticket.genre}> overdue">
+    <{else}>
+        <tr class="<{cycle values="odd, even"}> pri<{$ticket.genre}>">
+    <{/if}>
+        <td nowrap="nowrap">
+            <input type="checkbox" name="tickets[]" value="<{$ticket.id}>" /> <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.id}></a>
+        </td>
+        <td class="genre">
+            <img src="images/genre<{$ticket.genre}>.png" alt="<{$ticket.genre}>" />
+        </td>
+	<td class="nom_danseur">
+	<{$ticket.nom_danseur}> (<{$ticket.uname}>)</a>
+        </td>
+	<td class="nom_danseuse">
+	<{$ticket.nom_danseuse}></a>
+        </td>
+        <td class="status">
+            <{$ticket.status}>
+        </td>
+	<td class="pvp">
+            <{$ticket.pvp}>
+        </td>
+        <td class="department">
+            <a href="<{$ticket.departmenturl}>"><{$ticket.department}></a>
+        </td>
+	 <td>
+        <a href="<{$gtd_baseURL}>/ticket.php?id=<{$ticket.id}>&amp;op=edit"><img src="<{$gtd_imagePath}>edit.png" alt="<{$smarty.const._GTD_TEXT_EDIT_TICKET}>" /></a>
+        <br /><{$smarty.const._GTD_TEXT_EDIT_TICKET}>
+    </td>
+    </tr>
+    <{/foreach}>
+    <{else}>
+        <tr class="odd">
+            <td colspan="9">
+                <{$smarty.const._GTD_NO_TICKETS_ERROR}>
+            </td>
+        </tr>
+    <{/if}>
+    </table>
+    <div id="gtd_nav"><{$gtd_pagenav}></div>

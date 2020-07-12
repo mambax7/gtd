@@ -1,0 +1,101 @@
+<{include file='db:gtd_user_header.html'}>
+
+<{if $gtd_noStaff}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+    <{$smarty.const._GTD_MESSAGE_NO_STAFF}>
+    </div>
+<{/if}>
+
+<br />
+<div id="userTickets">
+<form name="ticketFilter" method="post" action="<{$gtd_baseURL}>/index.php">
+    <table id="ticketFilter" width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+        <tr>
+            <th colspan="7"><{$smarty.const._GTD_TEXT_FILTERTICKETS}></th>
+        </tr>
+        <tr>
+            <td class="head"><{$smarty.const._GTD_TEXT_STATE}></td>
+            <td class="head"><{$smarty.const._GTD_TEXT_STATUS}></td>
+            <td class="head"><{$smarty.const._GTD_TEXT_DEPARTMENT}></td>
+            <td class="head" colspan="2"><{$smarty.const._GTD_TEXT_LIMIT}></td>
+        </tr>
+        <tr>
+            <td><select name="dept" id="dept"><{html_options values=$gtd_department_values output=$gtd_department_options selected=$gtd_filter.department}></select></td>
+            <td><select name="state" id="state"><{html_options values=$gtd_state_values output=$gtd_state_options selected=$gtd_filter.state}></select></td>
+            <td><select name="status" id="status"><{html_options values=$gtd_status_values output=$gtd_status_options selected=$gtd_filter.status}></select></td>
+            <td><select name="limit" id="limit"><{html_options options=$gtd_limit_options selected=$gtd_filter.limit}></select></td>
+            <td><input type="submit" value="<{$smarty.const._GTD_BUTTON_SEARCH}>" /></td>
+        </tr>
+    </table>
+    <div>
+        <input type="hidden" name="op" value="userViewAll" />
+        <input type="hidden" name="start" value="<{$gtd_filter.start}>" />
+        <input type="hidden" name="sort" value="<{$gtd_filter.sort}>" />
+        <input type="hidden" name="order" value="<{$gtd_filter.order}>" />
+    </div>
+</form>
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="7">
+        <img src="<{$gtd_imagePath}>ticket.png" alt="<{$smart.const._GTD_TEXT_ALL_TICKETS}>" /><{$smarty.const._GTD_TEXT_ALL_TICKETS}>
+    </th>
+</tr>
+<{if $gtd_has_userTickets neq 0}>
+    <tr>
+        <td class="head">
+            <a href="<{$gtd_cols.id.url}>" title="<{$gtd_cols.id.urltitle}>"><{$smarty.const._GTD_TEXT_ID}><{if $gtd_cols.id.sortby eq true}><img src="images/<{$gtd_cols.id.sortdir}>.png" alt="<{$gtd_cols.id.sortdir}>" /><{/if}></a>
+        </td>
+		<td class="head">
+            <a href="<{$gtd_cols.nom_danseur.url}>" title="<{$gtd_cols.nom_danseur.urltitle}>"><{$smarty.const._GTD_TEXT_NOM_DANSEUR}><{if $gtd_cols.nom_danseur.id.sortby eq true}><img src="images/<{$gtd_cols.nom_danseur.sortdir}>.png" alt="<{$gtd_cols.nom_danseur.sortdir}>" /><{/if}></a>
+        </td>
+	<td class="head">
+            <a href="<{$gtd_cols.prenom_danseur.url}>" title="<{$gtd_cols.prenom_danseur.urltitle}>"><{$smarty.const._GTD_TEXT_PRENOM_DANSEUR}><{if $gtd_cols.prenom_danseur.id.sortby eq true}><img src="images/<{$gtd_cols.prenom_danseur.sortdir}>.png" alt="<{$gtd_cols.prenom_danseur.sortdir}>" /><{/if}></a>
+        </td>
+	<td class="head">
+            <a href="<{$gtd_cols.prenom_danseuse.url}>" title="<{$gtd_cols.prenom_danseuse.urltitle}>"><{$smarty.const._GTD_TEXT_PRENOM_DANSEUSE}><{if $gtd_cols.prenom_danseuse.id.sortby eq true}><img src="images/<{$gtd_cols.prenom_danseuse.sortdir}>.png" alt="<{$gtd_cols.prenom_danseuse.sortdir}>" /><{/if}></a>
+        </td>
+	</td>
+	<td class="head">
+            <a href="<{$gtd_cols.nom_danseuse.url}>" title="<{$gtd_cols.nom_danseuse.urltitle}>"><{$smarty.const._GTD_TEXT_NOM_DANSEUSE}><{if $gtd_cols.nom_danseuse.id.sortby eq true}><img src="images/<{$gtd_cols.nom_danseuse.sortdir}>.png" alt="<{$gtd_cols.nom_danseuse.sortdir}>" /><{/if}></a>
+        </td>
+        <td class="head">
+            <a href="<{$gtd_cols.status.url}>" title="<{$gtd_cols.status.urltitle}>"><{$smarty.const._GTD_TEXT_STATUS}><{if $gtd_cols.status.sortby eq true}><img src="images/<{$gtd_cols.status.sortdir}>.png" alt="<{$gtd_cols.status.sortdir}>" /><{/if}></a>
+        </td>
+        <td class="head">
+            <a href="<{$gtd_cols.department.url}>" title="<{$gtd_cols.department.urltitle}>"><{$smarty.const._GTD_TEXT_DEPARTMENT}><{if $gtd_cols.department.sortby eq true}><img src="images/<{$gtd_cols.department.sortdir}>.png" alt="<{$gtd_cols.department.sortdir}>" /><{/if}></a>
+        </td>
+    </tr>
+    <{foreach from=$gtd_userTickets item=ticket}>
+    <tr class="<{cycle values="odd,even"}>">
+        <td nowrap="nowrap">
+            <input type="checkbox" name="tickets[]" value="<{$ticket.id}>" /> <a href="ticket.php?id=<{$ticket.id}>"><{$ticket.id}></a>
+        </td>
+	<td class="nom_danseur">
+	<{$ticket.nom_danseur}></a>
+        </td>
+	<td class="prenom_danseur">
+	<{$ticket.prenom_danseur}>
+        </td>
+	<td class="prenom_danseuse">
+            <{$ticket.prenom_danseuse}>
+        </td>
+	<td class="nom_danseuse">
+            <{$ticket.nom_danseuse}>
+        </td>
+        <td class="status">
+            <{$ticket.status}>
+        </td>
+        <td class="department">
+            <a href="<{$ticket.departmenturl}>"><{$ticket.department}></a>
+        </td>
+    </tr>
+    <{/foreach}>
+<{else}>
+    <tr class="odd">
+        <td colspan="5">
+            <{$smarty.const._GTD_NO_TICKETS_ERROR}>
+        </td>
+    </tr>
+<{/if}>
+</table>
+</div>

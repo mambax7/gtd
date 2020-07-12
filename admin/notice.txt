@@ -1,0 +1,85 @@
+Ce module est destiné à gérer les inscription à des cours de Salsa, Rock ainsi qu'a des Stages.
+
+Fonctionnement Exemple
+
+1° -> Créer un Département (les années)
+Exemple : 2009/2010
+Tarif 1 heure : 200
+Tarif 2 heures : 300
+Tarif 3 heures : 380
+
+2° -> Assigné un utilisateur (Professeur) au département
+Exemple : Assignez vous
+
+3° -> Créez les cours
+Exemple ci dessous
+Nom : Salsa 1
+
+Nom du champs : Salsa_1 (Important de respecté le "S" Majuscule)
+
+Description : Niveau débutant
+
+Départements : 2009/2010
+
+Type de contrôle : Boîte de selection (Obligatoire)
+
+Type de données : Texte
+
+Requis : Non
+
+Longueur : 10
+
+Poids : 1
+
+Validation : Personalisation
+
+Valeur par défaut : "mettre un espace"
+
+Liste des valeurs de champs :
+(Première valeur est le nombre d'heures, la deuxieme le Jours du cour)
+"espace"="espace"
+1=Lundi
+2=Jeudi
+
+
+Fonctions actives :
+Choix de permission sur les années des cours
+Notifications variées (Admin et utilisateur)
+Affectation d'un professeur en fonction de ses cours
+Gestion des status des inscription
+Gestion des fichiers joints
+Gestion des MIME Types
+
+Possibilité de donnée droit à des réductions en Euros
+(Dans ce cas le nom du champs sera (Reduc_*)
+Liste des valeurs de champs :
+(Première valeur est le montant de la Reduc, L'intitulé)
+100=J'ai moins de 25 ans
+
+2 Types de calculs des cotisations
+Affecté un tarif horaire
+(Dans ce cas le nom du champs sera (Salsa_* ou Rock_*)
+1 heure = ***Euros
+2 heurs = ***Euros
+3 heurs = ***Euros
+Liste des valeurs de champs :
+(Première valeur est le nombre d'heures, la deuxieme le Jours du cour)
+"espace"="espace"
+1=Lundi
+2=Jeudi
+
+Affecté un tarif au cours
+Tel cours = ***Euros (Dans ce cas le nom du champs sera (Stage_*)
+Liste des valeurs de champs :
+(Première valeur est le montant du cours, Le nom du Stage)
+50=Stage de HipHop
+
+
+Prochaines fonctions en cours de dévellopement :
+Travail sur les defines
+Travail sur les templates
+Possibilité de faire une réduc par %
+Enfin le clonage du module ainsi que la création de son logo
+
+
+

@@ -1,0 +1,208 @@
+<{if $gtd_errors neq null}>   <{* Errors on ticket submission? *}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+        <img src="<{$gtd_imagePath}>important.png" />
+        <{$smarty.const._GTD_MESSAGE_VALIDATE_ERROR}><br />
+        <{foreach from=$gtd_errors item=error key=key}>
+            <li><a href="#<{$key}>" onclick="document.addTicket.<{$key}>.focus();"><{$key}><{$error}></a></li>
+        <{/foreach}>
+    </div>
+    <br />
+<{/if}>
+
+<{* javascript file for multiple file uploads *}>
+<{if $gtd_allowUpload eq 1}>
+    <script src="<{$gtd_includeURL}>/multifile.js"></script>
+<{/if}>
+
+<form method="post" enctype="multipart/form-data" action="<{$gtd_current_file}>" name="addTicket">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton" id="tblAddTicket">
+<tr>
+    <th colspan="2">
+        <img src="<{$gtd_imagePath}>addTicket.png" alt="<{$smart.const._GTD_TITLE_ADDTICKET}>" /> <{$smarty.const._GTD_TITLE_ADDTICKET}>
+    </th>
+</tr>
+<tr>
+    <td>
+    <div>
+	<div class="comUserStat"; style="float:left; height:35px; width:550px; margin-bottom:5px ">
+		<div class="comBleue" style="float:left; margin-left:15px; margin-top:8px"> Email : 
+		<input style="width:300px" type="textbox" name="email" id="email" value="<{$gtd_email}>" class="<{$gtd_element_email}>" /></div>
+	</div>
+	
+	<div>
+	<div class="comUserStat" style="float:left;height:100px;width:250px; margin-right:40px ">
+		<div class="comUserStat2"; style="margin-bottom:10px; float:left;height:20px;width:70px "> DANSEUR
+		</div>
+		<div style="margin-top:40px">
+		<div class="comBleue" style="clear:both; float:left; margin-right:25px"><{$smarty.const._GTD_TEXT_NOM}>
+		</div>
+		<div><input type="text" name="nom_danseur" id="nom_danseur" maxlength="80" size="25" value="<{$gtd_ticket_nom_danseur}>" class="<{$gtd_element_nom_danseur}>"/>
+		</div>
+		<div class="comBleue" style="margin-top:10px; clear:both; float:left; margin-right:5px"><{$smarty.const._GTD_TEXT_PRENOM}>
+		</div>
+		<div style="margin-top:10px"><input type="text" name="prenom_danseur" id="prenom_danseur" maxlength="80" size="25" value="<{$gtd_ticket_prenom_danseur}>" class="<{$gtd_element_prenom_danseur}>" />
+		</div>
+		</div>
+	</div>
+	
+	<div class="comUserStat" style="float:left;height:100px;width:250px ">
+		<div class="comUserStat2" style="margin-bottom:10px; float:left;height:20px;width:70px "> DANSEUSE
+		</div>
+		<div style="margin-top:40px">
+		<div class="comBleue" style=" clear:both; float:left; margin-right:25px"><{$smarty.const._GTD_TEXT_NOM}>
+		</div>
+		<div><input type="text" name="nom_danseuse" id="nom_danseuse" maxlength="80" size="25" value="<{$gtd_ticket_nom_danseuse}>" class="<{$gtd_element_nom_danseuse}>"/>
+		</div>
+		<div class="comBleue" style="margin-top:10px; clear:both; float:left; margin-right:5px"><{$smarty.const._GTD_TEXT_PRENOM}>
+		</div>
+		<div style="margin-top:10px"><input type="text" name="prenom_danseuse" id="prenom_danseuse" maxlength="80" size="25" value="<{$gtd_ticket_prenom_danseuse}>" class="<{$gtd_element_prenom_danseuse}>" />
+		</div>
+		</div>
+	</div>
+	</div>
+	
+	<div class="comUserStat" width="100%" style="clear:both; float:left; width:550px;margin-top:5px; margin-bottom:5px" >
+		<{$smarty.const._GTD_TEXT_GENRE}> :   <{foreach from=$gtd_genres item=genre}>
+		<input style="margin-left:30px" type="radio" value="<{$genre}>" id="genre<{$genre}>" name="genre" <{if $gtd_ticket_genre eq $genre}>checked="checked"<{/if}> />
+		<label for="genre<{$genre}>"><img src="<{$gtd_imagePath}>genre<{$genre}>.png" alt="<{$gtd_genres_desc.$genre}>" /></label>
+		<{/foreach}>
+	</div>
+	
+	<div class="comUserStat"; style="margin-bottom:10px; margin-top:5px; float:left; width:550px ">
+		<div class="comUserStat2"; style="float:left; height:20px; width:150px "> MON INSCRIPTION</div><br><br>
+		<div style="margin-bottom:10px; margin-top:20px">
+			<div class="comBleue" style="float:left; margin-right:10px"> <{$smarty.const._GTD_TEXT_ASSIGNTO}></div>
+			<div>
+				<select name="departments" id="departments">
+					<{foreach from=$gtd_departments item=dept}>
+					<option value="<{$dept.id}>" <{if $gtd_ticket_department eq $dept.id || $gtd_default_dept eq $dept.id}>selected="selected"<{/if}>><{$dept.department}></option>
+					<{/foreach}>
+				</select>
+			</div>
+		</div>
+		<table id="tbl_custom">
+			<tr id="position_custom"><td>
+			<{* Start of custom field code *}>
+			<{if $gtd_hasCustFields}>
+			<{foreach from=$gtd_custFields item=field}>
+						<{$field.name}> :
+					   <{if $field.desc != ""}>
+						<{$field.desc}>
+						<{/if}>
+						<{if $field.controltype == $smarty.const.GTD_CONTROL_TXTBOX}>
+						<input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+						<{elseif $field.controltype == $smarty.const.GTD_CONTROL_TXTAREA}>
+						<textarea name="<{$field.fieldname}>" id="<{$field.fieldname}>" cols="<{$field.fieldlength}>" rows="5"><{$field.defaultvalue}></textarea>
+						<{elseif $field.controltype == $smarty.const.GTD_CONTROL_SELECT}>
+						<select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="1">
+						<{foreach from=$field.fieldvalues item=value key=key}>
+							<option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+						<{/foreach}>
+						</select>
+						<{elseif $field.controltype == $smarty.const.GTD_CONTROL_MULTISELECT}>
+						<select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="3" multiple="multiple">
+						<{foreach from=$field.fieldvalues item=value key=key}>
+							<option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+						<{/foreach}>
+						</select>
+						<{elseif $field.controltype == $smarty.const.GTD_CONTROL_YESNO}>
+						<input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>1" value="1" <{if $field.defaultvalue == 1}>checked="checked"<{/if}> /><{$smarty.const._GTD_TEXT_YES}><br />
+						<input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>0" value="0" <{if $field.defaultvalue == 0}>checked="checked"<{/if}> /><{$smarty.const._GTD_TEXT_NO}>
+						<{elseif $field.controltype == $smarty.const.GTD_CONTROL_CHECKBOX}>
+						<{foreach from=$field.fieldvalues item=value key=key}>
+						<input type="checkbox" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $key == $field.defaultvalue}>checked="checked"<{/if}> /><{$value}><br />
+			<{/foreach}>
+			<{elseif $field.controltype == $smarty.const.GTD_CONTROL_RADIOBOX}>
+			<{foreach from=$field.fieldvalues item=value key=key}>
+						<input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $key == $field.defaultvalue}>checked="checked"<{/if}> /><{$value}><br />
+			<{/foreach}>
+			<{elseif $field.controltype == $smarty.const.GTD_CONTROL_DATETIME}>
+			<input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+			<{else}>
+			<!-- else is for GTD_CONTROL_FILE-->
+				<input type="file" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="" size="<{$field.fieldlength}>" />
+			<{/if}>
+			<{/foreach}>
+			<{/if}>
+			<{* End of custom field code *}>
+				</td>
+			</tr>
+		</table>
+		
+		
+		
+	</div>
+
+	
+	</td>
+	</tr>
+
+
+
+	
+
+<tr>
+	<td>
+		
+	<div class="comUserStat"; style="float:left; margin-bottom:10px; width:550px">
+		<div class="comUserStat2"; style="float:left; height:20px; width:150px "> PAIEMENT
+		</div><br>
+		<div style="clear:both;margin-right:10px; float:left; margin-top:10px"> Vous avez choisie un forfait
+		<input type="text" name="heures" id="heures" maxlength="10" size="1" value="0" class="comRed" readonly /> Heures  <a style="color:#FE9901" href="http://www.clubtranshotel.fr/modules/pages/index.php?pagenum=3">(Voir les Tarifs)</a>
+		Soit <input type="text" name="pvp" id="pvp" maxlength="4" size="1" value="<{$gtd_ticket_pvp}>" class="comRed" readonly /> Euros.
+		</div><br><br>
+		<div style="clear:both; margin-top:15px; float:left"> <{$smarty.const._GTD_TEXT_MODE_PAIEMENT}> 
+		<{foreach from=$gtd_mode_paiements item=mode_paiement}>
+		<input type="radio" value="<{$mode_paiement}>" id="mode_paiement<{$mode_paiement}>" name="mode_paiement" <{if $gtd_ticket_mode_paiement eq $mode_paiement}>checked="checked"<{/if}> />
+		<label for="mode_paiement<{$mode_paiement}>" style="margin-right:30px"><{$gtd_mode_paiements_desc.$mode_paiement}></label>
+		<{/foreach}>
+		</div><br><br><br>
+		<div style="clear:both; margin-top:15px; float:left"> <{$smarty.const._GTD_TEXT_ECHEANCE_PAIEMENT}></div><br><br>
+		<div>
+		<select name="echeance" id="echeance">
+		<{foreach from=$gtd_echeances item=echeance}>
+		<option value="<{$echeance}>" <{if $gtd_ticket_echeance eq $echeance || $gtd_default_echeance eq $echeance}>selected="selected"<{/if}>><{$gtd_echeances_desc.$echeance}></option>
+		<{/foreach}>
+		</select>
+		</div>
+		<div style="margin-top:10px">
+		<i>Reglement de votre cotisation le jour de la rentree </i>
+		</div>
+	</div>
+
+	
+	<div class="comUserStat"; style="float:left;width:550px ">
+		<div class="comUserStat2" style="float:left; height:20px; width:150px "> OBSERVATIONS
+		</div><br><br>
+		<div><textarea name="description" id="description" rows="5" cols="60" class="<{$gtd_element_description}>"><{$gtd_ticket_description}></textarea>
+		</div><br>
+		<div style="float:left; margin-right:10px; margin-bottom:10px"> <{$smarty.const._GTD_TEXT_ADDFILE}>
+		<input name="userfile_1" id="userfile" type="file" class="formButton" />
+		<script type="text/javascript">
+            	createMultiSelector();
+		</script>
+		</div><br><br>
+	</div>
+	
+	<div>
+		<input type="submit" name="addTicket" value="<{$smarty.const._GTD_BUTTON_SUBMIT}>" class="formButton" />
+		<input type="reset" value="<{$smarty.const._GTD_BUTTON_RESET}>" class="formButton" />
+		<{if $gtd_aOwnership eq false}>
+		<input type="hidden" name="owner" value="0" />
+		<{/if}>
+	</div>
+	
+	</div>
+	</td>
+</tr>
+</table>
+</form>
+
+<{if $gtd_allowUpload eq 1}>
+<br />
+<fieldset><legend><{$smarty.const._GTD_TEXT_AVAIL_FILETYPES}></legend>
+    <div id="mimetypes">
+        <{$gtd_mimetypes}>
+    </div>
+</fieldset>
+<{/if}>

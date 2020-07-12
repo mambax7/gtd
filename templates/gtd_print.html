@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$xoops_charset}>" />
+<meta http-equiv="content-language" content="<{$xoops_langcode}>" />
+<meta name="robots" content="<{$xoops_meta_robots}>" />
+<meta name="keywords" content="<{$xoops_meta_keywords}>" />
+<meta name="description" content="<{$xoops_meta_description}>" />
+<meta name="rating" content="<{$xoops_meta_rating}>" />
+<meta name="author" content="<{$xoops_meta_author}>" />
+<meta name="copyright" content="<{$xoops_meta_copyright}>" />
+<meta name="generator" content="XOOPS" />
+<title>Version Imprimable</title>
+<link rel="stylesheet" type="text/css" media="all" href="<{$xoops_url}>/modules/gtd/styles/print.css" />
+</head>
+
+<body>
+<script type="text/javascript" for=window event=onload language="javascript">
+    window.print();
+</script>
+
+<h2>Mon Inscription<br>
+<{$gtd_ticket_department}></h2>
+
+<!-- DEBUT DETAIL -->
+<table width="100%" border="1" cellpadding="0" cellspacing="2">
+		<tr>
+			<th colspan="3">
+				<img src="<{$gtd_imagePath}>ticketInfo.png" alt="<{$gtd_ticket_details}>" /> <{$gtd_ticket_details}>
+			</th>
+		</tr>
+		<tr >
+			<td width="20%">
+				<a href="<{$gtd_userinfo}>"><{$gtd_username}></a>
+			</td>
+			<td colspan="2">
+				<{$smarty.const._GTD_TEXT_LOG_TIME}> <{$gtd_ticket_posted}>
+			</td>
+		</tr>
+<tr>
+    <td>
+        <img src="<{$gtd_user_avatar}>" alt="<{$smarty.const._GTD_PIC_ALT_USER_AVATAR}>" />
+        <div>
+        <b><{$smarty.const._GTD_TEXT_GENRE}> : </b> <img src="images/genre<{$gtd_ticket_genre}>full.png" alt="<{$gtd_genres_desc.$gtd_ticket_genre}>" />
+	</div>
+        <div>
+        <b><{$smarty.const._GTD_TEXT_DEPARTMENT}> : </b> <{$gtd_ticket_department}>
+        </div>
+    </td>
+	<!-- DEBUT DETAIL -->
+    <td>
+    
+    	<div style="margin-top:15px; margin-left:5px">
+	<div  style="float:left;height:90px;width:200px; margin-right:40px ">
+		<div style="margin-bottom:5px; float:left; height:20px; width:100px; border: 1px solid #000000 "> DANSEUR
+		</div>
+		<div style="clear:both; float:left; margin-right:20px; margin-top:5px"><a><{$smarty.const._GTD_TEXT_NOM}> : </a> <{$gtd_ticket_nom_danseur}>
+		</div>
+		<div style="margin-top:10px; clear:both; float:left; margin-right:5px; margin-top:10px"><a><{$smarty.const._GTD_TEXT_PRENOM}> : </a> <{$gtd_ticket_prenom_danseur}>
+		</div>
+	</div>
+	
+	<div style="float:left;height:90px;width:200px ">
+		<div style="margin-bottom:5px; float:left; height:20px; width:100px; border: 1px solid #000000"> DANSEUSE
+		</div>
+		<div style=" clear:both; float:left; margin-right:20px; margin-top:5px"><a><{$smarty.const._GTD_TEXT_NOM}> : </a> <{$gtd_ticket_nom_danseuse}>
+		</div>
+		<div style="margin-top:10px; clear:both; float:left; margin-right:5px; margin-top:10px"><a><{$smarty.const._GTD_TEXT_PRENOM}> : </a> <{$gtd_ticket_prenom_danseuse}>
+		</div>
+	</div>
+	</div>
+	
+	<hr style="clear:both"/>
+	<div style="margin-left:5px">
+	<div style="margin-top:10px">COURS ET REDUCTIONS</div>
+	<div style="margin-bottom:10px; width:300px">
+	<{if $gtd_hasCustFields}>
+	<table border="1" >
+		<tr>
+			<td ALIGN="center">
+			TYPE
+			</td>
+			<td ALIGN="center">
+			DETAIL
+			</td>
+		</tr>
+		<{foreach from=$gtd_custFields item=field}>
+		<{if $aFile.responseid eq 0}>
+		<tr>
+			<td>
+				<{if $smarty.const.GTD_CONTROL_FILE == $field.controltype}>
+				<b><{$field.name}></b>: <a href="<{$gtd_baseURL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+				<{if $gtd_has_deleteFile}>
+				<a href="<{$gtd_baseURL}>/ticket.php?op=deleteFile&amp;id=<{$gtd_ticketID}>&amp;fileid=<{$field.fileid}>&amp;field=<{$field.fieldname}>"><img src="<{$gtd_imagePath}>button_delete.png" alt="<{$smarty.const._GTD_BUTTON_DELETE}>"></a>
+				<{/if}>
+				<{else}>
+				<b><{$field.name}> : 
+				<{/if}>
+			</td>
+			<td>
+				<{if $smarty.const.GTD_CONTROL_FILE == $field.controltype}>
+				<b><{$field.name}></b>: <a href="<{$gtd_baseURL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+				<{if $gtd_has_deleteFile}>
+				<a href="<{$gtd_baseURL}>/ticket.php?op=deleteFile&amp;id=<{$gtd_ticketID}>&amp;fileid=<{$field.fileid}>&amp;field=<{$field.fieldname}>"><img src="<{$gtd_imagePath}>button_delete.png" alt="<{$smarty.const._GTD_BUTTON_DELETE}>"></a>
+				<{/if}>
+				<{else}>
+				<{$field.value}>
+				<{/if}>
+			</td>
+			<{/if}>
+		</tr>
+		<{/foreach}>
+	</table>
+	</div>
+<{/if}>
+
+
+	<div style="margin-top:10px">DETAIL DU REGLEMENT</div>
+		<div style="100px;width:300px">
+		Cotisation nette : <{$gtd_ticket_pvp}> Euros<br>
+		Paiement par : <{$gtd_mode_paiements_desc.$gtd_ticket_mode_paiement}><br>
+		Modalite : <{$gtd_echeances_desc.$gtd_ticket_echeance}><br>
+	</div>
+	
+	<div style="float:left; margin-top:10px; margin-bottom:20px" border="1">
+		<div>OBSERVATIONS : </div>
+		<div style="margin-right:5px; height:100px;width:450px; border: 1px solid #000000">
+		<{$gtd_ticket_description}>
+		</div>
+	</div>
+</table>
+
+<div id="responses">
+<table width="100%" border="1" cellpadding="0" cellspacing="2">
+<tr>
+    <th colspan="2">
+        <img src="<{$gtd_imagePath}>response.png" alt="<{$smarty.const._GTD_TEXT_RESPONSES}>" /><{$smarty.const._GTD_TEXT_RESPONSES}>
+    </th>
+</tr>
+<{if $gtd_hasResponses eq true}>
+<{foreach from=$gtd_aResponses item=response}>
+<{if $response.private eq false}>
+<tr>
+    <td width="20%">
+        <{$response.uname}><br />
+        <{$response.updateTime}><br />
+        <br />
+        <{if $response.rating eq '' && $response.uid neq $gtd_uid}>
+            <a href="staffReview.php?staff=<{$response.uid}>&amp;ticketid=<{$gtd_ticketID}>&amp;responseid=<{$response.id}>"><{$smarty.const._GTD_TEXT_RATE_RESPONSE}></a>
+        <{elseif $response.rating neq '' && $response.uid neq $gtd_uid}>
+            <{$smarty.const._GTD_TEXT_RESPONSE_RATING}> <{$response.rating}>
+        <{/if}>
+    </td>
+    <td>
+        <{$response.message}>
+        <{if $response.attachSig eq 1 && $response.user_sig neq ''}>
+            <{$smarty.const._GTD_SIG_SPACER}>
+            <{$response.user_sig}>
+        <{/if}>
+        <br /><br />
+        <{if $response.hasFiles eq true}>
+            <table border="0">
+            <tr>
+                <td>
+                    <{$smarty.const._GTD_TEXT_FILE}>
+                </td>
+                <td>
+                    <{$smarty.const._GTD_TEXT_SIZE}>
+                </td>
+            </tr>
+            <{foreach from=$gtd_aFiles item=aFile}>
+                <{if $aFile.responseid eq $response.id && $aFile.responseid neq 0}>
+                    <tr>
+                        <td>
+                            <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                        </td>
+                        <td>
+                            <{$aFile.size}>
+                        </td>
+                    </tr>
+               <{/if}>
+           <{/foreach}>
+           </table>
+        <{/if}>
+    </td>
+</tr>
+<{/if}>
+<{/foreach}>
+<{else}>
+<tr>
+    <td colspan="2">
+        <{$smarty.const._GTD_NO_RESPONSES_ERROR}>
+    </td>
+</tr>
+<{/if}>
+</table>
+</div>
+</div>
+
+
+<div style=" margin-top:20px; text-align: center">Document imprime sur Go to Dance.fr, Aucune valeur contactuelle</div>
+</body>
+</html>
